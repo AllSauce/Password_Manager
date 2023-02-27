@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 public class KeyGenerator
 {
     private static KeyGenerator _instance;
