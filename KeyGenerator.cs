@@ -12,6 +12,18 @@ public class KeyGenerator
         return Convert.ToBase64String(key);
     }
 
+    public static KeyGenerator Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new KeyGenerator();
+            }
+            return _instance;
+        }
+    }
+
     public KeyGenerator()
     {
         if (_instance == null)
