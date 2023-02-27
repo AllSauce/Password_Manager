@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 public class KeyGenerator
 {
     private static KeyGenerator _instance;
+   
     public string GenerateKey()
     {
         var key = new byte[32];
@@ -24,11 +25,12 @@ public class KeyGenerator
         }
     }
 
-    public KeyGenerator()
+    private KeyGenerator()
     {
         if (_instance == null)
         {
             _instance = this;
         }
+        
     }
 }
