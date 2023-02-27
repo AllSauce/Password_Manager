@@ -13,6 +13,26 @@ public class KeyGenerator
         return Convert.ToBase64String(key);
     }
 
+    public byte[] GenerateKeyBytes()
+    {
+        var key = new byte[32];
+        using (var generator = RandomNumberGenerator.Create())
+        {
+            generator.GetBytes(key);
+        }
+        return key;
+    }
+
+    public byte[] GenerateIV()
+    {
+        var IV = new byte[16];
+        using (var generator = RandomNumberGenerator.Create())
+        {
+            generator.GetBytes(IV);
+        }
+        return IV;
+    }
+
     public static KeyGenerator Instance
     {
         get
