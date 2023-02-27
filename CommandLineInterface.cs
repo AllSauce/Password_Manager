@@ -14,4 +14,34 @@ public class CommandLineInterface
             return _instance;
         }
     }
+
+    public static void Init()
+    {
+
+    }
+
+    public static void Create()
+    {
+
+    }
+
+    public static void Get()
+    {
+
+    }
+
+    public static void Set()
+    {
+
+    }
+
+    public static void Delete()
+    {
+
+    }
+
+    public static void Secret()
+    {
+        
+    }
 }
