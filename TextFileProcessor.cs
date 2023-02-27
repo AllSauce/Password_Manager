@@ -56,8 +56,25 @@ public static class TextFileProcessor
         return true;
     }
 
-    public static vaultLoad Load(string filename, byte[] fullkey)
+    public static string GetKey(string VaultName)
     {
+        string projectPath = Environment.CurrentDirectory;
+        string folderPath = Path.Combine(Path.Combine(projectPath, "Vaults"), VaultName);
+        string ClientVaultFileName = Path.Combine(folderPath, "ClientVault.txt");
+        try
+        {
+            return File.ReadAllText(ClientVaultFileName);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
+    }
+
+    public static vaultLoad Load(string VaultName, byte[] fullkey)
+    {
+        string filename = Path.Combine(Path.Combine(Path.Combine(Environment.CurrentDirectory, "Vaults"), VaultName), "ServerVault.txt");
         vaultLoad output = new vaultLoad();
         output.Success = false;
         output.logins = new List<Login>();
@@ -96,8 +113,9 @@ public static class TextFileProcessor
                 }
             }
         }
-        catch
+        catch(Exception e)
         {
+            Console.WriteLine(e.Message);
             output.Success = false;
         }
 

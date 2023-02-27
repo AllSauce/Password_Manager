@@ -13,19 +13,55 @@ public class State
 
     // The key for the AES encryption
     // Derived from password and secret key 
-    public byte[] key { get; set; }
+    public byte[] fullkey { get; set; }
 
 
     public State(string name, string masterPassword, string secretKey, byte[] IV)
     {
         Name = name;
         this.IV = IV;
-        key = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
+        fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
         Passwords = new Dictionary<string, Login>();
         _CurrentState = this;
     }
 
-    public State CurrentState
+    public void AddLogin(Login login)
+    {
+        Passwords.Add(login.Website, login);
+    }
+
+    public void RemoveLogin(string website)
+    {
+        Passwords.Remove(website);
+    }
+
+    public void SetLogins(List<Login> logins)
+    {
+        Passwords = new Dictionary<string, Login>();
+        foreach (var login in logins)
+        {
+            Passwords.Add(login.Website, login);
+        }
+    }
+
+    public static void SetState(State state)
+    {
+        if(_CurrentState != null)
+            _CurrentState.Save();
+        _CurrentState = state;
+    }
+
+    public bool Save()
+    {
+        List<Login> logins = new List<Login>();
+        foreach (var login in Passwords)
+        {
+            logins.Add(login.Value);
+        }
+        return TextFileProcessor.Save(logins, fullkey, IV, Name);
+    }
+
+    public static State CurrentState
     {
         get
         {
