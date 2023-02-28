@@ -3,6 +3,7 @@ public class State
     private static State _CurrentState { get; set; }
     public Dictionary<string, Login> Passwords { get; set; }
 
+    // Name of the vault currently open
     public string Name { get; set; }
 
     // says if the vault was unlocked successfully
@@ -46,8 +47,11 @@ public class State
 
     public static void SetState(State state)
     {
+        // Save the current state
         if(_CurrentState != null)
             _CurrentState.Save();
+
+        // Set the new state
         _CurrentState = state;
     }
 
@@ -59,6 +63,15 @@ public class State
             logins.Add(login.Value);
         }
         return TextFileProcessor.Save(logins, fullkey, IV, Name);
+    }
+
+    public Login GetLogin(string website)
+    {
+        if(Passwords.ContainsKey(website))
+            return Passwords[website];
+        else
+            throw new Exception("Login does not exist");
+        
     }
 
     public static State CurrentState

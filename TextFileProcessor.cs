@@ -93,7 +93,9 @@ public static class TextFileProcessor
 
             if (success == "true")
             {
+                //Since the file is successfully decrypted set the success to true
                 output.Success = true;
+
                 //Remove the IV and success line from the file
                 lines = lines.Skip(2).ToArray();
 

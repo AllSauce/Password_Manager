@@ -42,19 +42,21 @@ public static class VaultFactory
 
     public static State LoadVault(string vaultName, string masterPassword)
     {
+        // Get the path to the vault
         string projectPath = Environment.CurrentDirectory;
         string folderPath = Path.Combine(Path.Combine(projectPath, "Vaults"), vaultName);
 
+
+        // Check if the vault exists
         if(!Directory.Exists(folderPath))
             throw new Exception("Vault does not exist");
-        
-        string ServerVaultFileName = Path.Combine(folderPath, "ServerVault.txt");
-        string ClientVaultFileName = Path.Combine(folderPath, "ClientVault.txt");
+    
 
         // Get the key from the client vault
         string secretKey = TextFileProcessor.GetKey(vaultName);
         if(secretKey == null)
             throw new Exception("Failed to get key");
+        
         
         // Generate the full key from the master password and the secret key
         byte[] fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
