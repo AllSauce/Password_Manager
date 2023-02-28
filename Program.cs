@@ -11,7 +11,7 @@ Console.WriteLine("Hello, World!");
 
 
 
-
+CommandLineInterface.Command();
 
 VaultFactory.LoadVault("GigaVault", Console.ReadLine());
 
@@ -29,3 +29,5 @@ foreach(var login in State.CurrentState.Passwords)
 {
     Console.WriteLine(login.Value.Website);
 }
+
+//CommandLineInterface.Command();
