@@ -25,6 +25,7 @@ public class CommandLineInterface
         {
             case "init":
                 Init(arr[1], arr[2], arr[3]);
+                Command();
                 break;
             case "create":
                 Create();
