@@ -123,6 +123,20 @@ public static class TextFileProcessor
 
         return output;
     }
+
+    public static bool SaveToServer(string serverPath, string vaultName, byte[] IV)
+    {
+        string fullServerPath = Path.Combine(Environment.CurrentDirectory, serverPath);
+        string insert = vaultName + " : " + Convert.ToBase64String(IV);
+        try{
+            File.WriteAllText(fullServerPath, insert);
+            return true;
+        }
+        catch(Exception e){
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
     
 }   
         

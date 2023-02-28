@@ -50,8 +50,9 @@ public class CommandLineInterface
 
     private static void Init(string clientPath, string serverPath, string masterPassword)
     {
-        VaultFactory.CreateVault(clientPath ,masterPassword);
+        State newVault = VaultFactory.CreateVault(clientPath ,masterPassword);
         //Måste spara encrypted vault och IV hos server.json eller skapa ny server fil?
+        TextFileProcessor.SaveToServer(serverPath, newVault.Name, newVault.IV);
     }
 
     private static void Create()
