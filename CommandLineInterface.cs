@@ -1,6 +1,6 @@
 public class CommandLineInterface
 {
-    private static CommandLineInterface _instance; 
+    private static CommandLineInterface? _instance; 
 
 
     public static CommandLineInterface Instance
@@ -15,7 +15,40 @@ public class CommandLineInterface
         }
     }
 
-    public static void Init()
+    public static void Command()
+    {
+        string s = Console.ReadLine() ?? "";
+        if(s == "") throw new Exception("Please enter a valid command with it's necessary components.");
+        string[] arr = Cut(s);
+
+        switch(arr[0])
+        {
+            case "init":
+                Init(arr[1], arr[2], arr[3]);
+                break;
+            case "create":
+                Create();
+                break;
+            case "get":
+                Get();
+                break;
+            case "set":
+                Set();
+                break;
+            case "delete":
+                Delete();
+                break;
+        }
+    }
+
+    private static string[] Cut(string s)
+    {
+        string[] arr = s.Split(' ');
+
+        return arr;
+    }
+
+    public static void Init(string path1, string path2, string password)
     {
 
     }
