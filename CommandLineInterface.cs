@@ -48,32 +48,33 @@ public class CommandLineInterface
         return arr;
     }
 
-    public static void Init(string path1, string path2, string password)
+    private static void Init(string clientPath, string serverPath, string masterPassword)
+    {
+        VaultFactory.CreateVault(clientPath ,masterPassword);
+        //Måste spara encrypted vault och IV hos server.json eller skapa ny server fil?
+    }
+
+    private static void Create()
     {
 
     }
 
-    public static void Create()
+    private static void Get()
     {
 
     }
 
-    public static void Get()
+    private static void Set()
     {
 
     }
 
-    public static void Set()
+    private static void Delete()
     {
 
     }
 
-    public static void Delete()
-    {
-
-    }
-
-    public static void Secret()
+    private static void Secret()
     {
         
     }
