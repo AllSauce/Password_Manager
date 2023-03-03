@@ -17,20 +17,23 @@ public class CommandLineInterface
 
     public static void Command(string[] args)
     {
+        /*
         string s = Console.ReadLine() ?? "";
         if(s == "") throw new Exception("Please enter a valid command with it's necessary components.");
-        string[] arr = Cut(s);
+        string[] arr = Cut(s);*/
 
-        switch(arr[0])
+        Console.ReadLine();
+
+        switch(args[0])
         {
             case "init":
-                Init(arr[1], arr[2], arr[3]);
+                Init(args[1], args[2], args[3]);
                 break;
             case "create":
-                Create();
+                Create(args[1], args[2]);
                 break;
             case "get":
-                Get();
+                Get(args[1], args[2]);
                 break;
             case "set":
                 Set();
@@ -41,6 +44,7 @@ public class CommandLineInterface
         }
     }
 
+    //Unnecessary with string[] args
     private static string[] Cut(string s)
     {
         string[] arr = s.Split(' ');
@@ -51,18 +55,34 @@ public class CommandLineInterface
     private static void Init(string clientPath, string serverPath, string masterPassword)
     {
         VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
-        //Måste spara encrypted vault och IV hos server.json eller skapa ny server fil?
-        // TextFileProcessor.SaveToServer(serverPath, newVault.Name, newVault.IV);
     }
 
-    private static void Create()
+    private static void Create(string clientPath, string serverPath)
     {
+        Console.WriteLine("Please enter your master-password: ");
+        string masterPassword = Console.ReadLine() ?? "";
+        Console.WriteLine("Please enter the secret-key");
+        string secretKey = Console.ReadLine() ?? "";
 
+        if(masterPassword == "" || secretKey == "") throw new NoInputException(masterPassword, secretKey); 
+        
+        State s = VaultFactory.LoadVaultWithSecretKey(serverPath, masterPassword, secretKey);
+        if(s.Success)
+        {
+            TextFileProcessor.SaveKey(secretKey, clientPath);
+        }
+        else
+        {
+            Console.WriteLine("Master-Password or Secret-Key was not correct. Please try again.");
+        }
     }
 
-    private static void Get()
+    private static void Get(string clientPath, string serverPath)
     {
+        Console.WriteLine("Please enter your master-password: ");
+        string masterPassword = Console.ReadLine() ?? "";
 
+        
     }
 
     private static void Set()
@@ -78,5 +98,12 @@ public class CommandLineInterface
     private static void Secret()
     {
         
+    }
+
+    //Should provide a command guide:
+    //Which ones there are and how to use them.
+    private static void Help()
+    {
+
     }
 }

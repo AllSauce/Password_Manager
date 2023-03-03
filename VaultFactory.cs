@@ -74,4 +74,35 @@ public static class VaultFactory
         return State.CurrentState;
 
     }
+
+    //Alternate LoadVault where secretKey is input mechanically
+    public static State LoadVaultWithSecretKey(string serverPath, string masterPassword, string secretKey)
+    {
+    
+        
+
+
+
+    
+        // Check if the vault exists   
+        if(!File.Exists(serverPath))
+            throw new Exception("No file exists at serverpath");
+        
+
+        // Generate the full key from the master password and the secret key
+        byte[] fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
+
+        var VaultLoad = TextFileProcessor.Load(serverPath, fullkey);
+        
+        if(VaultLoad.Success == false)
+            throw new Exception("Failed to load vault");
+        
+        // Return the state of the vault
+        State.SetState(new State("Openvault", masterPassword, secretKey, VaultLoad.IV));
+        State.CurrentState.SetLogins(VaultLoad.logins);
+        State.CurrentState.Success = true;
+
+        return State.CurrentState;
+
+    }
 }
