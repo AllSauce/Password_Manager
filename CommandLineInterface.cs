@@ -15,7 +15,7 @@ public class CommandLineInterface
         }
     }
 
-    public static void Command()
+    public static void Command(string[] args)
     {
         string s = Console.ReadLine() ?? "";
         if(s == "") throw new Exception("Please enter a valid command with it's necessary components.");
@@ -25,7 +25,6 @@ public class CommandLineInterface
         {
             case "init":
                 Init(arr[1], arr[2], arr[3]);
-                Command();
                 break;
             case "create":
                 Create();
@@ -51,9 +50,9 @@ public class CommandLineInterface
 
     private static void Init(string clientPath, string serverPath, string masterPassword)
     {
-        State newVault = VaultFactory.CreateVault(clientPath ,masterPassword);
+        VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
         //Måste spara encrypted vault och IV hos server.json eller skapa ny server fil?
-        TextFileProcessor.SaveToServer(serverPath, newVault.Name, newVault.IV);
+        // TextFileProcessor.SaveToServer(serverPath, newVault.Name, newVault.IV);
     }
 
     private static void Create()

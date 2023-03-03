@@ -4,30 +4,11 @@ global using System;
 global using System.Collections.Generic;
 
 // See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
 
-
-
-
-
-
-CommandLineInterface.Command();
-
-VaultFactory.LoadVault("GigaVault", Console.ReadLine());
-
-if(State.CurrentState.Success == false)
+class program    
 {
-    Console.WriteLine("Failed to load vault");
-    return;
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Hello, World!");
+    }
 }
-else if(State.CurrentState.Success == true)
-{
-    Console.WriteLine("Vault loaded successfully");
-}
-
-foreach(var login in State.CurrentState.Passwords)
-{
-    Console.WriteLine(login.Value.Website);
-}
-
-//CommandLineInterface.Command();

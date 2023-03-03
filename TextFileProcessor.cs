@@ -2,13 +2,10 @@
 
 public static class TextFileProcessor 
 {
-    public static bool Save(List<Login> objectsToSave, byte[] fullkey, byte[] IV, string VaultName)
+    public static bool Save(List<Login> objectsToSave, byte[] fullkey, byte[] IV, string ServerVaultFileName)
     {
+           
         
-        string projectPath = Environment.CurrentDirectory;
-        string folderPath = Path.Combine(Path.Combine(projectPath, "Vaults"), VaultName);
-        string ServerVaultFileName = Path.Combine(folderPath, "ServerVault.txt");
-        Console.WriteLine(ServerVaultFileName);
         try
         {
             List<string> lines = new List<string>();    
@@ -38,14 +35,12 @@ public static class TextFileProcessor
         return true;
     }
 
-    public static bool SaveKey(string key, string VaultName)
+    public static bool SaveKey(string key, string path)
     {
-        string projectPath = Environment.CurrentDirectory;
-        string folderPath = Path.Combine(Path.Combine(projectPath, "Vaults"), VaultName);
-        string ClientVaultFileName = Path.Combine(folderPath, "ClientVault.txt");
+        
         try
         {
-            File.WriteAllText(ClientVaultFileName, key);
+            File.WriteAllText(path , key);
         }
         catch(Exception e)
         {
@@ -56,14 +51,11 @@ public static class TextFileProcessor
         return true;
     }
 
-    public static string GetKey(string VaultName)
+    public static string GetKey(string ClientVaultFilePath)
     {
-        string projectPath = Environment.CurrentDirectory;
-        string folderPath = Path.Combine(Path.Combine(projectPath, "Vaults"), VaultName);
-        string ClientVaultFileName = Path.Combine(folderPath, "ClientVault.txt");
         try
         {
-            return File.ReadAllText(ClientVaultFileName);
+            return File.ReadAllText(ClientVaultFilePath);
         }
         catch(Exception e)
         {
@@ -71,10 +63,10 @@ public static class TextFileProcessor
             return null;
         }
     }
+    
 
-    public static vaultLoad Load(string VaultName, byte[] fullkey)
+    public static vaultLoad Load(string filename, byte[] fullkey)
     {
-        string filename = Path.Combine(Path.Combine(Path.Combine(Environment.CurrentDirectory, "Vaults"), VaultName), "ServerVault.txt");
         vaultLoad output = new vaultLoad();
         output.Success = false;
         output.logins = new List<Login>();
@@ -114,28 +106,16 @@ public static class TextFileProcessor
                     output.logins.Add(login);
                 }
             }
+            else throw new Exception("The file is not successfully decrypted, are you using the right password?");
         }
         catch(Exception e)
         {
+            //If there is an error set the success to false
             Console.WriteLine(e.Message);
             output.Success = false;
         }
 
         return output;
-    }
-
-    public static bool SaveToServer(string serverPath, string vaultName, byte[] IV)
-    {
-        string fullServerPath = Path.Combine(Environment.CurrentDirectory, serverPath);
-        string insert = vaultName + " : " + Convert.ToBase64String(IV);
-        try{
-            File.WriteAllText(fullServerPath, insert);
-            return true;
-        }
-        catch(Exception e){
-            Console.WriteLine(e.Message);
-            return false;
-        }
     }
     
 }   
