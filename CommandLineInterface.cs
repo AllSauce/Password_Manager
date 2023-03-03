@@ -33,7 +33,7 @@ public class CommandLineInterface
                 Create(args[1], args[2]);
                 break;
             case "get":
-                Get(args[1], args[2]);
+                Get(args[1], args[2], args[3]);
                 break;
             case "set":
                 Set();
@@ -77,12 +77,15 @@ public class CommandLineInterface
         }
     }
 
-    private static void Get(string clientPath, string serverPath)
+    private static void Get(string clientPath, string serverPath, string property)
     {
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
 
-        
+        State s = VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+
+        //How do I get a password from under 'property'? 
+        //Examples of property from canvas instructions: "username.example.com" or "password.example.com"
     }
 
     private static void Set()
