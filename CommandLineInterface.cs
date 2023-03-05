@@ -107,6 +107,16 @@ public class CommandLineInterface
     //Which ones there are and how to use them.
     private static void Help()
     {
-
+        System.Console.WriteLine("The following commands are possible: ");
+        System.Console.WriteLine();
+        System.Console.WriteLine("init <client path> <server path> <master password>");
+        System.Console.WriteLine(
+            "The 'init' command creates a new 'client', 'server' and encrypts 'vault' stored in 'server' using 'master password'");
+        System.Console.WriteLine();
+        System.Console.WriteLine("create <client path> <server path> <master password> <secret key>");
+        System.Console.WriteLine(
+            "The 'create' command creates a new client that will be used to log in to server.");
+            System.Console.WriteLine();
+            
     }
 }
