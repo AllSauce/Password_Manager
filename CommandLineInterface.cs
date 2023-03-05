@@ -73,7 +73,7 @@ public class CommandLineInterface
         }
         else
         {
-            Console.WriteLine("Master-Password or Secret-Key was not correct. Please try again.");
+            throw new WrongInputException(masterPassword, secretKey);
         }
     }
 
