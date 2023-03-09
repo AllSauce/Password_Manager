@@ -41,6 +41,9 @@ public class CommandLineInterface
             case "delete":
                 Delete();
                 break;
+            case "help":
+                Help();
+                break;
         }
     }
 
@@ -109,14 +112,17 @@ public class CommandLineInterface
     {
         System.Console.WriteLine("The following commands are possible: ");
         System.Console.WriteLine();
-        System.Console.WriteLine("init <client path> <server path> <master password>");
+        System.Console.WriteLine("The 'init' command: ");
+        System.Console.WriteLine();
         System.Console.WriteLine(
             "The 'init' command creates a new 'client', 'server' and encrypts 'vault' stored in 'server' using 'master password'");
         System.Console.WriteLine();
+        System.Console.WriteLine();
         System.Console.WriteLine("create <client path> <server path> <master password> <secret key>");
+        System.Console.WriteLine();
         System.Console.WriteLine(
-            "The 'create' command creates a new client that will be used to log in to server.");
-            System.Console.WriteLine();
+            "The 'create' command creates a new client that will be used to log in to 'server'.");
+        System.Console.WriteLine();
             
     }
 }
