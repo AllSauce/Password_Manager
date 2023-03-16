@@ -69,10 +69,11 @@ public class CommandLineInterface
 
         if(masterPassword == "" || secretKey == "") throw new NoInputException(masterPassword, secretKey); 
         
-        State s = VaultFactory.LoadVaultWithSecretKey(serverPath, masterPassword, secretKey);
-        if(s.Success)
+        VaultFactory.LoadVaultWithSecretKey(serverPath, masterPassword, secretKey);
+        if(State.CurrentState.Success)
         {
             TextFileProcessor.SaveKey(secretKey, clientPath);
+            State.CurrentState.Name = clientPath;
         }
         else
         {

@@ -30,7 +30,7 @@ public static class VaultFactory
             throw new Exception("Failed to save vault");
         
         // Return the state of the vault
-        State.SetState(new State("name", masterPassword, secretKey, IV));
+        State.SetState(new State(clientPath, masterPassword, secretKey, IV));
 
         return State.CurrentState;
         
@@ -67,7 +67,7 @@ public static class VaultFactory
             throw new WrongPasswordException(masterPassword);
         
         // Return the state of the vault
-        State.SetState(new State("Openvault", masterPassword, secretKey, VaultLoad.IV));
+        State.SetState(new State(clientPath, masterPassword, secretKey, VaultLoad.IV));
         State.CurrentState.SetLogins(VaultLoad.logins);
         State.CurrentState.Success = true;
 
