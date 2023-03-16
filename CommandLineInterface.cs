@@ -36,7 +36,7 @@ public class CommandLineInterface
                 Get(args[1], args[2], args[3]);
                 break;
             case "set":
-                Set();
+                Set(args[1], args[2], args[3]);
                 break;
             case "delete":
                 Delete();
@@ -85,25 +85,36 @@ public class CommandLineInterface
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
 
-        State s = VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+        VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
 
-        //How do I get a password from under 'property'? 
-        //Examples of property from canvas instructions: "username.example.com" or "password.example.com"
+        Console.WriteLine(State.CurrentState.GetLogin(property).Password);
     }
 
-    private static void Set()
+    private static void Set(string clientPath, string serverPath, string property)
     {
+        Console.WriteLine("Please enter your master-password: ");
+        string masterPassword = Console.ReadLine() ?? "";
+        Console.WriteLine("Please enter the password you wish to store: ");
+        string newPassword = Console.ReadLine() ?? "";
 
+        VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+
+        State.CurrentState.setLoginPassword(property, newPassword);
     }
 
-    private static void Delete()
+    private static void Delete(string clientPath, string serverPath, string property)
     {
+        Console.WriteLine("Please enter your master-password: ");
+        string masterPassword = Console.ReadLine() ?? "";
 
+        VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+
+        State.CurrentState.RemoveLogin(property);
     }
 
-    private static void Secret()
+    private static void Secret(string clientPath)
     {
-        
+        Console.WriteLine(TextFileProcessor.GetKey(clientPath));
     }
 
     //Should provide a command guide:

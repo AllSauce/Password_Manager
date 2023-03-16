@@ -45,6 +45,21 @@ public class State
         }
     }
 
+    public void setLoginPassword(string website, string newPass)
+    {
+        if(Passwords.Count > 0 && Passwords.ContainsKey(website))
+        {
+            Login temp = new Login(Passwords[website].Username, Passwords[website].Password, website, Passwords[website].Notes);
+
+            RemoveLogin(website);
+
+            AddLogin(temp);
+        }
+
+        if(_CurrentState != null)
+            _CurrentState.Save();
+    }
+
     public static void SetState(State state)
     {
         // Save the current state

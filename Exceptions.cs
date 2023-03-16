@@ -33,3 +33,11 @@ public class WrongInputException : Exception
 
     }
 }
+
+[Serializable]
+public class WrongPasswordException : Exception
+{
+    public WrongPasswordException() {      }
+
+    public Wrong
+}
