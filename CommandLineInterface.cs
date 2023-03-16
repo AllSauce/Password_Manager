@@ -17,8 +17,6 @@ public class CommandLineInterface
 
     public static void Command(string[] args)
     {
-        Console.ReadLine();
-
         switch(args[0])
         {
             case "init":
@@ -52,6 +50,7 @@ public class CommandLineInterface
 
     private static void Init(string clientPath, string serverPath)
     {
+        Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
         VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
         Console.WriteLine(TextFileProcessor.GetKey(clientPath));
