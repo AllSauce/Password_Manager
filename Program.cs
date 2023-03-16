@@ -9,7 +9,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Console.WriteLine("Hello, Master Wayne.");
 
         CommandLineInterface.Command(args);
     }
