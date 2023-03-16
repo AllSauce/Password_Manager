@@ -17,17 +17,12 @@ public class CommandLineInterface
 
     public static void Command(string[] args)
     {
-        /*
-        string s = Console.ReadLine() ?? "";
-        if(s == "") throw new Exception("Please enter a valid command with it's necessary components.");
-        string[] arr = Cut(s);*/
-
         Console.ReadLine();
 
         switch(args[0])
         {
             case "init":
-                Init(args[1], args[2], args[3]);
+                Init(args[1], args[2]);
                 break;
             case "create":
                 Create(args[1], args[2]);
@@ -55,9 +50,11 @@ public class CommandLineInterface
         return arr;
     }
 
-    private static void Init(string clientPath, string serverPath, string masterPassword)
+    private static void Init(string clientPath, string serverPath)
     {
+        string masterPassword = Console.ReadLine() ?? "";
         VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
+        Console.WriteLine(TextFileProcessor.GetKey(clientPath));
     }
 
     private static void Create(string clientPath, string serverPath)
