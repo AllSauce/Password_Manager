@@ -39,5 +39,11 @@ public class WrongPasswordException : Exception
 {
     public WrongPasswordException() {      }
 
-    public Wrong
+    public WrongPasswordException(string parameter)
+        :   base(String.Format("The password: '{0}' is incorrect! Please try again.", parameter))
+    {
+        
+    }
+
+
 }

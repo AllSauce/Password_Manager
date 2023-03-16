@@ -64,7 +64,7 @@ public static class VaultFactory
         var VaultLoad = TextFileProcessor.Load(serverPath, fullkey);
         
         if(VaultLoad.Success == false)
-            throw new Exception("Failed to load vault");
+            throw new WrongPasswordException(masterPassword);
         
         // Return the state of the vault
         State.SetState(new State("Openvault", masterPassword, secretKey, VaultLoad.IV));

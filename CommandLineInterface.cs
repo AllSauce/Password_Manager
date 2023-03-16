@@ -39,7 +39,7 @@ public class CommandLineInterface
                 Set(args[1], args[2], args[3]);
                 break;
             case "delete":
-                Delete();
+                Delete(args[1], args[2], args[3]);
                 break;
             case "help":
                 Help();
