@@ -32,7 +32,7 @@ public class CommandLineInterface
                 Set(args[1], args[2], args[3]);
                 break;
             case "delete":
-                Delete(args[1], args[2], args[3]);
+                Delete(args[1], args[2], args[3], args[4]);
                 break;
             case "help":
                 Help();
@@ -91,8 +91,13 @@ public class CommandLineInterface
         Console.WriteLine(State.CurrentState.GetLogin(property).Password);
     }
 
-    private static void Set(string clientPath, string serverPath, string property)
+    private static void Set(string clientPath, string serverPath, string property, string gen)
     {
+        if(gen == "-g" || gen == "--generate")
+        {
+            Console.WriteLine(PasswordGenerator.GeneratePassword());
+            return;
+        }
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
         Console.WriteLine("Please enter the password you wish to store: ");
