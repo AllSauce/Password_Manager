@@ -2,14 +2,7 @@ public static class VaultFactory
 {
     public static State CreateVault(string clientPath, string serverPath, string masterPassword)
     {
-        
 
-
-        // Create the vault folder
-        // If the folder already exists, throw an exception
-        
-
-        
 
         // Generate the key for the vault
         string secretKey = KeyGenerator.Instance.GenerateKey();
@@ -30,7 +23,7 @@ public static class VaultFactory
             throw new Exception("Failed to save vault");
         
         // Return the state of the vault
-        State.SetState(new State(clientPath, masterPassword, secretKey, IV));
+        State.SetState(new State( serverPath, masterPassword, secretKey, IV));
 
         return State.CurrentState;
         
@@ -80,10 +73,6 @@ public static class VaultFactory
     {
     
         
-
-
-
-    
         // Check if the vault exists   
         if(!File.Exists(serverPath))
             throw new Exception("No file exists at serverpath");

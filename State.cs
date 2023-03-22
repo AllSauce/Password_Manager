@@ -4,7 +4,7 @@ public class State
     public Dictionary<string, Login> Passwords { get; set; }
 
     // Name of the vault currently open
-    public string Name { get; set; }
+    public string ServerPath { get; set; }
 
     // says if the vault was unlocked successfully
     public bool Success { get; set; }
@@ -17,9 +17,9 @@ public class State
     public byte[] fullkey { get; set; }
 
 
-    public State(string name, string masterPassword, string secretKey, byte[] IV)
+    public State(string ServerPath, string masterPassword, string secretKey, byte[] IV)
     {
-        Name = name;
+        this.ServerPath = ServerPath;
         this.IV = IV;
         fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
         Passwords = new Dictionary<string, Login>();
@@ -77,7 +77,7 @@ public class State
         {
             logins.Add(login.Value);
         }
-        return TextFileProcessor.Save(logins, fullkey, IV, Name);
+        return TextFileProcessor.Save(logins, fullkey, IV, ServerPath);
     }
 
     public Login GetLogin(string website)

@@ -37,6 +37,9 @@ public class CommandLineInterface
             case "help":
                 Help();
                 break;
+            default:
+                Console.WriteLine("Invalid command");
+                break;
         }
     }
 
@@ -53,7 +56,8 @@ public class CommandLineInterface
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
         VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
-        Console.WriteLine(TextFileProcessor.GetKey(clientPath));
+        // Console.WriteLine(TextFileProcessor.GetKey(clientPath));
+        //State.CurrentState.Save();
     }
 
     private static void Create(string clientPath, string serverPath)
@@ -69,7 +73,7 @@ public class CommandLineInterface
         if(State.CurrentState.Success)
         {
             TextFileProcessor.SaveKey(secretKey, clientPath);
-            State.CurrentState.Name = clientPath;
+            State.CurrentState.ServerPath = serverPath;
         }
         else
         {
