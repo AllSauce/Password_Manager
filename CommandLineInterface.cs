@@ -29,8 +29,9 @@ public class CommandLineInterface
                     Create(args[1], args[2]);
                     break;
                 case "get":
-                    if(args.Length != 4) throw new WrongInputException("get");
-                    Get(args[1], args[2], args[3]);
+                    if(args.Length == 4) Get(args[1], args[2], args[3]);
+                    if(args.Length == 3) Get(args[1], args[2]);
+                    else throw new WrongInputException("get");
                     break;
                 case "set":
                     if(args.Length == 4) Set(args[1], args[2], args[3]);
@@ -134,6 +135,32 @@ public class CommandLineInterface
     }
 
     private static void Get(string clientPath, string serverPath, string property)
+    {
+        Console.WriteLine("Please enter your master-password: ");
+        string masterPassword = Console.ReadLine() ?? "";
+        try
+        {
+            VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+
+        try
+        {
+            Console.WriteLine(State.CurrentState.GetLogin(property).Password);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+        
+    }
+
+    private static void Get(string clientPath, string serverPath)
     {
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
