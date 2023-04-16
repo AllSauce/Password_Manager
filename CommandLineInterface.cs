@@ -34,6 +34,9 @@ public class CommandLineInterface
             case "delete":
                 Delete(args[1], args[2], args[3]);
                 break;
+            case "secret":
+                Secret(args[1]);
+                break;
             case "help":
                 Help();
                 break;
