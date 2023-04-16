@@ -94,7 +94,7 @@ public class CommandLineInterface
         }
         else
         {
-            throw new WrongInputException(masterPassword, secretKey);
+            Console.WriteLine("Failed to load vault");
         }
     }
 

@@ -85,7 +85,10 @@ public static class VaultFactory
         // Check if the vault exists   
         if(!File.Exists(serverPath))
             throw new Exception("No file exists at serverpath");
-        
+        if(masterPassword == "" || masterPassword == null)
+            throw new ArgumentNullException("Master password cannot be empty");
+        if(secretKey == "" || secretKey == null)
+            throw new ArgumentNullException("Secret key cannot be empty");
 
         // Generate the full key from the master password and the secret key
         byte[] fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
