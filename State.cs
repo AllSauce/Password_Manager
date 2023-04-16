@@ -77,6 +77,14 @@ public class State
         }
     }
 
+    public void PrintAllProperties()
+    {
+        foreach (var login in Passwords)
+        {
+            Console.WriteLine(login.Value.Property + ": " + login.Value.Password);
+        }
+    }
+
     public void setLoginPassword(string property, string newPass)
     {
         if(Passwords.Count > 0 && Passwords.ContainsKey(property))
