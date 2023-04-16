@@ -50,7 +50,7 @@ public class CommandLineInterface
             }
         }catch(WrongInputException)
         {
-            Environment.ExitCode = 1;
+            Environment.Exit(1);
         }
     }
 
