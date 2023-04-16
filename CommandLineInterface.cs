@@ -176,7 +176,7 @@ public class CommandLineInterface
 
         try
         {
-            Console.WriteLine(State.CurrentState.GetLogin(property).Password);
+            State.CurrentState.PrintAllProperties();
         }
         catch(Exception e)
         {
