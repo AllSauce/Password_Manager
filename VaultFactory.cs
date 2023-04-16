@@ -55,7 +55,16 @@ public static class VaultFactory
 
 
         // Get the key from the client vault
-        string secretKey = TextFileProcessor.GetKey(clientPath);
+        string secretKey;
+        try
+        {
+            secretKey = TextFileProcessor.GetKey(clientPath);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        
         if(secretKey == null)
             throw new Exception("Failed to get key");
         

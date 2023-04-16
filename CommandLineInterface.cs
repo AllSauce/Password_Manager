@@ -169,6 +169,15 @@ public class CommandLineInterface
 
     private static void Secret(string clientPath)
     {
-        Console.WriteLine(TextFileProcessor.GetKey(clientPath));
+        try
+        {
+            Console.WriteLine(TextFileProcessor.GetKey(clientPath));
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+        
     }
 }

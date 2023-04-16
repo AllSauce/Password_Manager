@@ -53,15 +53,19 @@ public static class TextFileProcessor
 
     public static string GetKey(string ClientVaultFilePath)
     {
-        try
-        {
+        
+        if(!File.Exists(ClientVaultFilePath))
+            throw new FileNotFoundException("Could not find client file");
+        else if(File.ReadAllText(ClientVaultFilePath) == "")
+            throw new Exception("The client file is empty");
+        else if(File.ReadLines(ClientVaultFilePath).Count() > 1 || File.ReadLines(ClientVaultFilePath).Count() < 1)
+            throw new Exception("The client file is not formatted correctly");
+        else
             return File.ReadAllText(ClientVaultFilePath);
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine(e.Message);
-            return null;
-        }
+        
+        
+        
+        
     }
     
 
