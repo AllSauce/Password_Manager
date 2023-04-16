@@ -71,28 +71,40 @@ public static class TextFileProcessor
 
     public static vaultLoad Load(string filename, byte[] fullkey)
     {
+        if(!File.Exists(filename))
+            throw new FileNotFoundException("Could not find server file");
+        
+
         vaultLoad output = new vaultLoad();
         output.Success = false;
         output.logins = new List<Login>();
         output.IV = new byte[16];
 
-        try
+        
+        string [] lines;
+        //Read the file
+        try{
+            lines = File.ReadAllLines(filename);
+        }
+        catch (Exception e)
         {
-            //Read the file
-            string[] lines = File.ReadAllLines(filename);
+            throw new Exception("The file could not be read");
+        }
+        
 
-            //Get the IV from the top of the file
-            output.IV = Convert.FromBase64String(lines[0]);
+        //Get the IV from the top of the file
+        output.IV = Convert.FromBase64String(lines[0]);
 
-            //If the file is successfully decrypted then this line will be true
-            string success = Decryptor.Decrypt(Convert.FromBase64String(lines[1]), fullkey, output.IV);
+        //If the file is successfully decrypted then this line will be true
+        string success = Decryptor.Decrypt(Convert.FromBase64String(lines[1]), fullkey, output.IV);
 
-            if (success == "true")
+        if (success == "true")
+        {
+            
+            
+            try
             {
-                //Since the file is successfully decrypted set the success to true
-                output.Success = true;
-
-                //Remove the IV and success line from the file
+            
                 lines = lines.Skip(2).ToArray();
 
                 foreach (var line in lines)
@@ -109,15 +121,20 @@ public static class TextFileProcessor
                     //Add the login to the list
                     output.logins.Add(login);
                 }
+                output.Success = true;
             }
-            else throw new Exception("The file is not successfully decrypted, are you using the right password?");
+            catch(Exception e)
+            {
+                throw new Exception("The file was not loaded properly. Is the file formatted correctly?");
+                
+            }
+            
+            
         }
-        catch(Exception e)
-        {
-            //If there is an error set the success to false
-            Console.WriteLine(e.Message);
-            output.Success = false;
-        }
+        else throw new Exception("The file is not successfully decrypted, are you using the right password?");
+        
+        
+        
 
         return output;
     }

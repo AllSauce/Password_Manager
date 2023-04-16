@@ -10,7 +10,13 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Hello, Master Wayne.");
-
-        CommandLineInterface.Command(args);
+        try
+        {
+            CommandLineInterface.Command(args);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

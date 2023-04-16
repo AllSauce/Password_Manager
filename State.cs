@@ -38,6 +38,7 @@ public class State
                     break;
                 default:
                     Console.WriteLine("Failed to generate key");
+                    Environment.Exit(1);
                     break;
             }
         }
@@ -58,7 +59,10 @@ public class State
 
     public void RemoveLogin(string website)
     {
-        Passwords.Remove(website);
+        if(Passwords.ContainsKey(website))
+            Passwords.Remove(website);
+        else 
+            throw new Exception("Login does not exist");
     }
 
     public void SetLogins(List<Login> logins)
@@ -80,8 +84,9 @@ public class State
 
             AddLogin(temp);
         }
+        else throw new Exception("Login does not exist");
 
-        if(_CurrentState != null)
+        if(_CurrentState is not null)
             _CurrentState.Save();
     }
 

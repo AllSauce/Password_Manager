@@ -15,6 +15,7 @@ public static class VaultFactory
         
         // Generate the key for the vault
         string secretKey = KeyGenerator.Instance.GenerateKey();
+        Console.WriteLine("Your secret key is: " + secretKey);
         
         // Store the key in the client vault
         if(!TextFileProcessor.SaveKey(secretKey, clientPath))
@@ -64,14 +65,14 @@ public static class VaultFactory
         {
             throw new Exception(e.Message);
         }
-        
+
         if(secretKey == null)
             throw new Exception("Failed to get key");
         
 
         // Generate the full key from the master password and the secret key
         byte[] fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
-
+        
         var VaultLoad = TextFileProcessor.Load(serverPath, fullkey);
         
         if(VaultLoad.Success == false)

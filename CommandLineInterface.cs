@@ -98,7 +98,8 @@ public class CommandLineInterface
     {
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
-        try{
+        try
+        {
             VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
         }
         catch(Exception e)
@@ -134,10 +135,26 @@ public class CommandLineInterface
     {
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
+        try
+        {
+            VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
 
-        VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
-
-        Console.WriteLine(State.CurrentState.GetLogin(property).Password);
+        try
+        {
+            Console.WriteLine(State.CurrentState.GetLogin(property).Password);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+        
     }
 
     private static void Set(string clientPath, string serverPath, string property)
@@ -146,10 +163,24 @@ public class CommandLineInterface
         string masterPassword = Console.ReadLine() ?? "";
         Console.WriteLine("Please enter the password you wish to store: ");
         string newPassword = Console.ReadLine() ?? "";
-
-        VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
-
-        State.CurrentState.setLoginPassword(property, newPassword);
+        try
+        {
+            VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+        try
+        {
+            State.CurrentState.setLoginPassword(property, newPassword);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
     }
 
     private static void Set(string clientPath, string serverPath, string property, string gen)
@@ -161,9 +192,18 @@ public class CommandLineInterface
 
         if(gen == "-g" || gen == "--generate")
         {
-            VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
-            State.CurrentState.setLoginPassword(property, newPassword);
-            Console.WriteLine(newPassword);
+            try
+            {
+                VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+                State.CurrentState.setLoginPassword(property, newPassword);
+                Console.WriteLine("New password is: " + newPassword);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            
             return;
         }
         else
@@ -177,10 +217,24 @@ public class CommandLineInterface
     {
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
-
-        VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
-
-        State.CurrentState.RemoveLogin(property);
+        try
+        {
+            VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+        try
+        {
+            State.CurrentState.RemoveLogin(property);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine("Failed to remove login: " + e.Message);
+            Environment.Exit(1);
+        }
     }
 
     private static void Secret(string clientPath)
