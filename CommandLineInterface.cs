@@ -48,8 +48,39 @@ public class CommandLineInterface
                     Console.WriteLine("Invalid command");
                     break;
             }
-        }catch(WrongInputException)
+        }
+        catch(WrongInputException)
         {
+            Console.WriteLine("Wrong input for command: " + args[0]);
+            switch(args[0])
+            {
+                case "init":
+                    Console.WriteLine("init <client-path> <server-path>");
+                    break;
+                case "create":
+                    Console.WriteLine("create <client-path> <server-path>");
+                    break;
+                case "get":
+                    Console.WriteLine("get <client-path> <server-path> <property>");
+                    break;
+                case "set":
+                    Console.WriteLine("set <client-path> <server-path> <property> [-g]");
+                    break;
+                case "delete":
+                    Console.WriteLine("delete <client-path> <server-path> <property>");
+                    break;
+                case "secret":  
+                    Console.WriteLine("secret <client-path>");
+                    break;
+                default:
+                    Console.WriteLine("Invalid command");
+                    break;
+            }
+            Environment.Exit(1);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
             Environment.Exit(1);
         }
     }
