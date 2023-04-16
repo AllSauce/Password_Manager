@@ -29,8 +29,9 @@ public class CommandLineInterface
                     Create(args[1], args[2]);
                     break;
                 case "get":
-                    if(args.Length != 4) throw new WrongInputException("get");
-                    Get(args[1], args[2], args[3]);
+                    if(args.Length == 4) Get(args[1], args[2], args[3]);
+                    else if(args.Length == 5) Get(args[1], args[2], args[3], args[4]);
+                    else throw new WrongInputException("get");
                     break;
                 case "set":
                     if(args.Length != 5) throw new WrongInputException("set");
