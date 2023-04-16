@@ -30,7 +30,7 @@ public class CommandLineInterface
                     break;
                 case "get":
                     if(args.Length == 4) Get(args[1], args[2], args[3]);
-                    if(args.Length == 3) Get(args[1], args[2]);
+                    else if(args.Length == 3) Get(args[1], args[2]);
                     else throw new WrongInputException("get");
                     break;
                 case "set":
