@@ -54,15 +54,18 @@ public class State
 
     public void AddLogin(Login login)
     {
-        Passwords.Add(login.Website, login);
+        Passwords.Add(login.Property, login);
     }
 
-    public void RemoveLogin(string website)
+    public void RemoveLogin(string property)
     {
-        if(Passwords.ContainsKey(website))
-            Passwords.Remove(website);
+        if(Passwords.ContainsKey(property))
+            Passwords.Remove(property);
         else 
             throw new Exception("Login does not exist");
+
+        if(_CurrentState is not null)
+            _CurrentState.Save();
     }
 
     public void SetLogins(List<Login> logins)
@@ -70,21 +73,24 @@ public class State
         Passwords = new Dictionary<string, Login>();
         foreach (var login in logins)
         {
-            Passwords.Add(login.Website, login);
+            Passwords.Add(login.Property, login);
         }
     }
 
-    public void setLoginPassword(string website, string newPass)
+    public void setLoginPassword(string property, string newPass)
     {
-        if(Passwords.Count > 0 && Passwords.ContainsKey(website))
+        if(Passwords.Count > 0 && Passwords.ContainsKey(property))
         {
-            Login temp = new Login(Passwords[website].Username, Passwords[website].Password, website, Passwords[website].Notes);
+            Login temp = new Login(Passwords[property].Property, Passwords[property].Password);
 
-            RemoveLogin(website);
+            RemoveLogin(property);
 
             AddLogin(temp);
         }
-        else throw new Exception("Login does not exist");
+        else 
+            AddLogin(new Login(property, newPass));
+
+        
 
         if(_CurrentState is not null)
             _CurrentState.Save();
@@ -93,8 +99,6 @@ public class State
     public static void SetState(State state)
     {
         // Save the current state
-        if(_CurrentState != null)
-            _CurrentState.Save();
 
         // Set the new state
         _CurrentState = state;
@@ -110,10 +114,10 @@ public class State
         return TextFileProcessor.Save(logins, fullkey, IV, ServerPath);
     }
 
-    public Login GetLogin(string website)
+    public Login GetLogin(string property)
     {
-        if(Passwords.ContainsKey(website))
-            return Passwords[website];
+        if(Passwords.ContainsKey(property))
+            return Passwords[property];
         else
             throw new Exception("Login does not exist");
         

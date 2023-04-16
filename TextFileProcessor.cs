@@ -12,7 +12,7 @@ public static class TextFileProcessor
 
             foreach (var login in objectsToSave)
             {
-                string line = $"{login.Username},{login.Password},{login.Website},{login.Notes}";
+                string line = $"{login.Property},{login.Password}";
                 var EncryptedLine = Encryptor.Encrypt(line, fullkey, IV);
                 lines.Add(Convert.ToBase64String(EncryptedLine));
             }
@@ -86,7 +86,7 @@ public static class TextFileProcessor
         try{
             lines = File.ReadAllLines(filename);
         }
-        catch (Exception e)
+        catch
         {
             throw new Exception("The file could not be read");
         }
@@ -96,7 +96,15 @@ public static class TextFileProcessor
         output.IV = Convert.FromBase64String(lines[0]);
 
         //If the file is successfully decrypted then this line will be true
-        string success = Decryptor.Decrypt(Convert.FromBase64String(lines[1]), fullkey, output.IV);
+        string success;
+        try
+        {
+            success = Decryptor.Decrypt(Convert.FromBase64String(lines[1]), fullkey, output.IV);
+        }
+        catch
+        {
+            throw new Exception("The file is not successfully decrypted, are you using the right password/Secret key?");
+        }
 
         if (success == "true")
         {
@@ -116,14 +124,14 @@ public static class TextFileProcessor
                     string[] parts = decryptedLine.Split(',');
 
                     //Create a new login
-                    Login login = new Login(parts[0], parts[1], parts[2], parts[3]);
+                    Login login = new Login(parts[0], parts[1]);
 
                     //Add the login to the list
                     output.logins.Add(login);
                 }
                 output.Success = true;
             }
-            catch(Exception e)
+            catch
             {
                 throw new Exception("The file was not loaded properly. Is the file formatted correctly?");
                 
@@ -131,7 +139,7 @@ public static class TextFileProcessor
             
             
         }
-        else throw new Exception("The file is not successfully decrypted, are you using the right password?");
+        else throw new Exception("The file is not successfully decrypted, are you using the right password/secret key?");
         
         
         

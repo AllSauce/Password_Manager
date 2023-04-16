@@ -120,6 +120,8 @@ public class CommandLineInterface
         string secretKey = Console.ReadLine() ?? ""; 
         
         VaultFactory.LoadVaultWithSecretKey(serverPath, masterPassword, secretKey);
+
+
         if(State.CurrentState.Success)
         {
             TextFileProcessor.SaveKey(secretKey, clientPath);
