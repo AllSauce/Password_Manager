@@ -55,7 +55,15 @@ public class CommandLineInterface
     {
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
-        VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
+        try{
+            VaultFactory.CreateVault(clientPath, serverPath, masterPassword);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
+        
         // Console.WriteLine(TextFileProcessor.GetKey(clientPath));
         //State.CurrentState.Save();
     }

@@ -4,6 +4,12 @@ public static class Decryptor
     public static string Decrypt(byte[] encryptedText, byte[] key, byte[] iv)
     {
         byte[] decryptedData;
+        if(encryptedText == null || encryptedText.Length <= 0)
+            throw new ArgumentNullException("encryptedText");
+        if(key == null || key.Length <= 0)
+            throw new ArgumentNullException("key");
+        if(iv == null || iv.Length <= 0)
+            throw new ArgumentNullException("iv");
 
         using (var aes = Aes.Create())
         {

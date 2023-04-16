@@ -3,7 +3,16 @@ public static class VaultFactory
     public static State CreateVault(string clientPath, string serverPath, string masterPassword)
     {
 
+        // Check if arguments are valid
+        if(masterPassword == "" || masterPassword == null)
+            throw new ArgumentNullException("Master password cannot be empty");
+        if(clientPath == "" || clientPath == null)
+            throw new ArgumentNullException("Client path cannot be empty");
+        if(serverPath == "" || serverPath == null)
+            throw new ArgumentNullException("Server path cannot be empty");
 
+
+        
         // Generate the key for the vault
         string secretKey = KeyGenerator.Instance.GenerateKey();
         

@@ -21,7 +21,32 @@ public class State
     {
         this.ServerPath = ServerPath;
         this.IV = IV;
-        fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
+        try{
+            fullkey = Encryptor.GenerateFullKey(Encoding.UTF8.GetBytes(masterPassword), Encoding.UTF8.GetBytes(secretKey));
+        }
+        catch(ArgumentNullException e)
+        {
+            switch(e.Message)
+            {
+                case "MasterPassword":
+                    Console.WriteLine("MasterPassword cannot be null");
+                    Environment.Exit(1);
+                    break;
+                case "key":
+                    Console.WriteLine("Key cannot be null");
+                    Environment.Exit(1);
+                    break;
+                default:
+                    Console.WriteLine("Failed to generate key");
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Failed to generate key");
+            Console.WriteLine(e.Message);
+            Environment.Exit(1);
+        }
         Passwords = new Dictionary<string, Login>();
         _CurrentState = this;
     }
