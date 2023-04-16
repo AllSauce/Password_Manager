@@ -17,32 +17,40 @@ public class CommandLineInterface
 
     public static void Command(string[] args)
     {
-        switch(args[0])
+        try{
+            switch(args[0])
+            {
+                case "init":
+                    if(args.Length != 3) throw new WrongInputException("init");
+                    Init(args[1], args[2]);
+                    break;
+                case "create":
+                    if(args.Length != 3) throw new WrongInputException("create");
+                    Create(args[1], args[2]);
+                    break;
+                case "get":
+                    if(args.Length != 4) throw new WrongInputException("get");
+                    Get(args[1], args[2], args[3]);
+                    break;
+                case "set":
+                    if(args.Length != 5) throw new WrongInputException("set");
+                    Set(args[1], args[2], args[3], args[4]);
+                    break;
+                case "delete":
+                    if(args.Length != 4) throw new WrongInputException("delete");
+                    Delete(args[1], args[2], args[3]);
+                    break;
+                case "secret":
+                    if(args.Length != 2) throw new WrongInputException("secret");
+                    Secret(args[1]);
+                    break;
+                default:
+                    Console.WriteLine("Invalid command");
+                    break;
+            }
+        }catch(WrongInputException)
         {
-            case "init":
-                Init(args[1], args[2]);
-                break;
-            case "create":
-                Create(args[1], args[2]);
-                break;
-            case "get":
-                Get(args[1], args[2], args[3]);
-                break;
-            case "set":
-                Set(args[1], args[2], args[3], args[4]);
-                break;
-            case "delete":
-                Delete(args[1], args[2], args[3]);
-                break;
-            case "secret":
-                Secret(args[1]);
-                break;
-            case "help":
-                Help();
-                break;
-            default:
-                Console.WriteLine("Invalid command");
-                break;
+            Environment.ExitCode = 1;
         }
     }
 
@@ -68,9 +76,7 @@ public class CommandLineInterface
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
         Console.WriteLine("Please enter the secret-key");
-        string secretKey = Console.ReadLine() ?? "";
-
-        if(masterPassword == "" || secretKey == "") throw new NoInputException(masterPassword, secretKey); 
+        string secretKey = Console.ReadLine() ?? ""; 
         
         VaultFactory.LoadVaultWithSecretKey(serverPath, masterPassword, secretKey);
         if(State.CurrentState.Success)
@@ -124,25 +130,5 @@ public class CommandLineInterface
     private static void Secret(string clientPath)
     {
         Console.WriteLine(TextFileProcessor.GetKey(clientPath));
-    }
-
-    //Should provide a command guide:
-    //Which ones there are and how to use them.
-    private static void Help()
-    {
-        System.Console.WriteLine("The following commands are possible: ");
-        System.Console.WriteLine();
-        System.Console.WriteLine("The 'init' command: ");
-        System.Console.WriteLine();
-        System.Console.WriteLine(
-            "The 'init' command creates a new 'client', 'server' and encrypts 'vault' stored in 'server' using 'master password'");
-        System.Console.WriteLine();
-        System.Console.WriteLine();
-        System.Console.WriteLine("create <client path> <server path> <master password> <secret key>");
-        System.Console.WriteLine();
-        System.Console.WriteLine(
-            "The 'create' command creates a new client that will be used to log in to 'server'.");
-        System.Console.WriteLine();
-            
     }
 }

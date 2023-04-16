@@ -22,7 +22,7 @@ public class WrongInputException : Exception
     public WrongInputException() {    }
 
     public WrongInputException(string parameter)
-        : base(String.Format("The following was incorrect: {0}", parameter))
+        : base(String.Format("Incorrect input for: {0}", parameter))
     {
 
     }
