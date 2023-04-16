@@ -29,13 +29,13 @@ public class CommandLineInterface
                     Create(args[1], args[2]);
                     break;
                 case "get":
-                    if(args.Length == 4) Get(args[1], args[2], args[3]);
-                    else if(args.Length == 5) Get(args[1], args[2], args[3], args[4]);
-                    else throw new WrongInputException("get");
+                    if(args.Length != 4) throw new WrongInputException("get");
+                    Get(args[1], args[2], args[3]);
                     break;
                 case "set":
-                    if(args.Length != 5) throw new WrongInputException("set");
-                    Set(args[1], args[2], args[3], args[4]);
+                    if(args.Length == 4) Set(args[1], args[2], args[3]);
+                    else if(args.Length == 5) Set(args[1], args[2], args[3], args[4]);
+                    else throw new WrongInputException("set");
                     break;
                 case "delete":
                     if(args.Length != 4) throw new WrongInputException("delete");
@@ -140,13 +140,8 @@ public class CommandLineInterface
         Console.WriteLine(State.CurrentState.GetLogin(property).Password);
     }
 
-    private static void Set(string clientPath, string serverPath, string property, string gen)
+    private static void Set(string clientPath, string serverPath, string property)
     {
-        if(gen == "-g" || gen == "--generate")
-        {
-            Console.WriteLine(PasswordGenerator.GeneratePassword());
-            return;
-        }
         Console.WriteLine("Please enter your master-password: ");
         string masterPassword = Console.ReadLine() ?? "";
         Console.WriteLine("Please enter the password you wish to store: ");
@@ -155,6 +150,27 @@ public class CommandLineInterface
         VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
 
         State.CurrentState.setLoginPassword(property, newPassword);
+    }
+
+    private static void Set(string clientPath, string serverPath, string property, string gen)
+    {
+        Console.WriteLine("Please enter your master-password: ");
+        string masterPassword = Console.ReadLine() ?? "";
+
+        string newPassword = PasswordGenerator.GeneratePassword();
+
+        if(gen == "-g" || gen == "--generate")
+        {
+            VaultFactory.LoadVault(serverPath, clientPath, masterPassword);
+            State.CurrentState.setLoginPassword(property, newPassword);
+            Console.WriteLine(newPassword);
+            return;
+        }
+        else
+        {
+            Console.WriteLine("Invalid argument.\n Type '-g' or '--generate' if you want an automatically generated password.");
+            Environment.Exit(1);
+        }
     }
 
     private static void Delete(string clientPath, string serverPath, string property)
